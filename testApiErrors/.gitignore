@@ -1,0 +1,5 @@
+#archivos generados por python
+/__pycache__
+/myenv
+#base de datos
+baseerrors.db

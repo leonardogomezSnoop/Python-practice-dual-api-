@@ -1,0 +1,7 @@
+#archivos generados por python
+/__pycache__
+/myenv
+#archivos generados por vscode
+/.vscode
+#base de datos
+mi_basededatos.db
