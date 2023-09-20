@@ -1,45 +1,18 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import sqlite3
+import pyodbc
 from error_handler import log_error, log_local_error
 app = FastAPI()
 
 
-# Abrir una conexión a la base de datos en memoria
-conn = sqlite3.connect("mi_basededatos.db")
+# Abrir una conexión a la base de datos 
+try:
+    connection_string=('DRIVER={SQL Server};SERVER=DESKTOP-590PN4I;DATABASE=python_app;Trusted_Connection=yes')
+    conn = pyodbc.connect(connection_string)
+    print('conexion exitosa')
+except Exception as ex:
+    print(ex)
 
-# Crear una tabla de ejemplo en la base de datos
-cursor = conn.cursor()
-cursor.execute(
-    """
-    CREATE TABLE IF NOT EXISTS items (
-        id INTEGER PRIMARY KEY,
-        name TEXT,
-        description TEXT
-    )
-"""
-)
-
-# Crear una tabla de usuarios
-conn.execute(
-    """
-    CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY,
-        username TEXT
-    )
-"""
-)
-
-conn.execute(
-    """
-    CREATE TABLE IF NOT EXISTS user_items (
-        user_id INTEGER,
-        item_id INTEGER,
-        FOREIGN KEY (user_id) REFERENCES users (id),
-        FOREIGN KEY (item_id) REFERENCES items (id)
-    )
-"""
-)
 
 
 class Item(BaseModel):
